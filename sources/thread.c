@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/21 16:44:24 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/21 20:03:59 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,15 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (philo->rules->is_alive)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->rules->check_death);
+        if (!philo->rules->is_alive)
+        {
+            pthread_mutex_unlock(&philo->rules->check_death);
+            return (NULL);
+        }
+        pthread_mutex_unlock(&philo->rules->check_death);
 		eat(philo);
 		print_action(philo, "is sleeping");
 		fake_sleep(philo->rules->time_to_sleep);
@@ -87,8 +94,7 @@ int	thread(t_philo *philos)
 	i = 0;
 	while (i < philos->rules->count_philos)
 	{
-		pthread_create(&philos->thread[i], NULL, &routine, (void *)&philos[i]);
-		usleep(100);
+		pthread_create(&philos->thread, NULL, &routine, (void *)&philos[i]);
 		i++;
 	}
 	i = 0;
@@ -96,7 +102,7 @@ int	thread(t_philo *philos)
 	pthread_join(monitor_thread, NULL);
 	while (i < philos->rules->count_philos)
 	{
-		pthread_join(philos->thread[i], NULL);
+		pthread_join(philos->thread, NULL);
 		i++;
 	}
 	return (0);

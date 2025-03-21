@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/21 16:36:08 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/21 20:02:46 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_rules
 typedef struct s_philo
 {
 	int				id;
-	pthread_t		thread[MAX_PHILO];
+	pthread_t		thread;
 	int				count_meal;
 	long			last_meal;
 	pthread_mutex_t	*left_fork;

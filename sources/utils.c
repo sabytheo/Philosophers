@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/21 16:37:22 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/21 20:00:31 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ void	cancel_sim(t_rules *rules, t_philo *philos)
 	i = 0;
 	while (i < rules->count_philos)
 	{
-		pthread_join(philos[i].thread[i], NULL);
+		pthread_join(philos[i].thread, NULL);
 		i++;
 	}
 	pthread_mutex_destroy(&rules->check_death);
 	pthread_mutex_destroy(&rules->writing);
-	// free(rules->forks);
 	free(philos);
 }

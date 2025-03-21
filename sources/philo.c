@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/21 16:43:24 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/21 18:23:54 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 		philos[i].last_meal = get_current_time();
 		philos[i].rules = rules;
 		philos[i].left_fork = &rules->forks[i];
-		philos[i].right_fork = &rules->forks[(i + 1) % rules->count_philos];
+		philos[i].right_fork = &rules->forks[i + 1];
 		i++;
 	}
 }
@@ -74,6 +74,8 @@ int	main(int argc, char **argv)
 	t_philo	philos[MAX_PHILO];
 	t_rules	rules;
 
+	ft_memset(&philos, 0, sizeof(t_philo));
+	ft_memset(&rules, 0, sizeof(t_rules));
 	init_rules(&rules, argc, argv);
 	init_philos((t_philo *)philos, &rules);
 	thread(philos);
