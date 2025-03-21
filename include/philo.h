@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/20 23:55:53 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/21 16:36:08 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_philo
 
 long				get_current_time(void);
 void				fake_sleep(long time);
-void				cancel_sim(t_rules *rules);
+void				cancel_sim(t_rules *rules, t_philo *philos);
 
 int					thread(t_philo *philos);
 

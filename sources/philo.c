@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/20 23:46:54 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/21 16:43:24 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 	{
 		philos[i].id = i;
 		philos[i].count_meal = 0;
-		philos[i].last_meal = 0;
+		philos[i].last_meal = get_current_time();
 		philos[i].rules = rules;
 		philos[i].left_fork = &rules->forks[i];
-		philos[i].right_fork = &rules->forks[i + 1];
+		philos[i].right_fork = &rules->forks[(i + 1) % rules->count_philos];
 		i++;
 	}
 }
