@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/21 18:23:54 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/24 14:24:32 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 	}
 	pthread_mutex_init(&rules->writing, NULL);
 	pthread_mutex_init(&rules->check_death, NULL);
+	pthread_mutex_init(&rules->check_lastmeal, NULL);
 	rules->start_time = get_current_time();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/21 20:02:46 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:35:41 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_rules
 	pthread_mutex_t	forks[MAX_PHILO];
 	pthread_mutex_t	writing;
 	pthread_mutex_t	check_death;
+	pthread_mutex_t	check_lastmeal;
 	long			start_time;
 }					t_rules;
 
@@ -54,6 +55,7 @@ typedef struct s_philo
 long				get_current_time(void);
 void				fake_sleep(long time);
 void				cancel_sim(t_rules *rules, t_philo *philos);
+int					check_death(t_philo *philo);
 
 int					thread(t_philo *philos);
 

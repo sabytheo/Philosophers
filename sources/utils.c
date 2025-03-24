@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/21 20:00:31 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:35:32 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,16 @@ void	cancel_sim(t_rules *rules, t_philo *philos)
 	pthread_mutex_destroy(&rules->check_death);
 	pthread_mutex_destroy(&rules->writing);
 	free(philos);
+}
+
+int check_death(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->rules->check_death);
+        if (!philo->rules->is_alive)
+        {
+            pthread_mutex_unlock(&philo->rules->check_death);
+            return (1);
+        }
+        pthread_mutex_unlock(&philo->rules->check_death);
+		return(0);
 }
