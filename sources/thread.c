@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/24 15:35:23 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/24 16:04:01 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	*monitor(void *arg)
 				cancel_sim(rules, philo);
 				pthread_mutex_unlock(&rules->check_death);
 				pthread_mutex_unlock(&philo->rules->check_lastmeal);
-				pthread_exit(NULL);
 			}
 			pthread_mutex_unlock(&rules->check_death);
 			pthread_mutex_unlock(&philo->rules->check_lastmeal);
