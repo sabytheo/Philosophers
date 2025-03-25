@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/24 14:24:32 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:12:00 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 		philos[i].last_meal = get_current_time();
 		philos[i].rules = rules;
 		philos[i].left_fork = &rules->forks[i];
-		philos[i].right_fork = &rules->forks[i + 1];
+		philos[i].right_fork = &rules->forks[(i + 1 % rules->count_philos)];
 		i++;
 	}
 }
@@ -81,6 +81,6 @@ int	main(int argc, char **argv)
 	init_philos((t_philo *)philos, &rules);
 	thread(philos);
 	// printf("nombre de philo : %d\ntime_to_die : %d\ntime_to_eat : %d\ntime_to_sleep : %d\n start_time : %ld\n ", rules.count_philos,rules.time_to_die,rules.time_to_eat,rules.time_to_sleep,rules.start_time);
-	destroy_mutex(&rules);
+	// destroy_mutex(&rules);
 	return(0);
 }

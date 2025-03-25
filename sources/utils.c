@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/24 15:35:32 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/25 19:58:32 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	cancel_sim(t_rules *rules, t_philo *philos)
 	int	i;
 
 	pthread_mutex_lock(&rules->check_death);
+	printf("==================MORT==================\n");
 	rules->is_alive = 0;
 	pthread_mutex_unlock(&rules->check_death);
 	i = 0;
@@ -45,16 +46,17 @@ void	cancel_sim(t_rules *rules, t_philo *philos)
 	pthread_mutex_destroy(&rules->check_death);
 	pthread_mutex_destroy(&rules->writing);
 	free(philos);
+	return ;
 }
 
-int check_death(t_philo *philo)
+int	check_deaths(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->rules->check_death);
-        if (!philo->rules->is_alive)
-        {
-            pthread_mutex_unlock(&philo->rules->check_death);
-            return (1);
-        }
-        pthread_mutex_unlock(&philo->rules->check_death);
-		return(0);
+	if (philo->rules->is_alive == 0)
+	{
+		pthread_mutex_unlock(&philo->rules->check_death);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->rules->check_death);
+	return (0);
 }
