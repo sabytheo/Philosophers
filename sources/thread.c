@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/25 19:58:25 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/26 15:15:52 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,36 +46,34 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-void	*monitor(void *arg)
+int	monitor(t_philo *philo)
 {
-	t_philo	*philo;
-	t_rules	*rules;
 	int		i;
 
-	philo = (t_philo *)arg;
-	rules = (*philo).rules;
-	while (rules->is_alive)
+	while (philo->rules->is_alive)
 	{
 		i = 0;
-		while (i < rules->count_philos)
+		while (i < philo->rules->count_philos)
 		{
-			pthread_mutex_lock(&rules->check_death);
 			pthread_mutex_lock(&philo->rules->check_lastmeal);
-			if (rules->is_alive && get_current_time()
-			- philo[i].last_meal > rules->time_to_die)
+			if (philo->rules->is_alive && get_current_time()
+			- philo[i].last_meal > philo->rules->time_to_die)
 			{
 				print_action(&philo[i], "died");
-				cancel_sim(rules, philo);
-				pthread_mutex_unlock(&rules->check_death);
+				pthread_mutex_lock(&philo->rules->check_death);
+				philo->rules->is_alive = 0;
+				pthread_mutex_unlock(&philo->rules->check_death);
+				cancel_sim(philo->rules, philo);
+				pthread_mutex_unlock(&philo->rules->check_death);
 				pthread_mutex_unlock(&philo->rules->check_lastmeal);
+				return(1);
 			}
-			pthread_mutex_unlock(&rules->check_death);
 			pthread_mutex_unlock(&philo->rules->check_lastmeal);
 			i++;
 		}
 		usleep(100);
 	}
-	return (NULL);
+	return (0);
 }
 
 void	eat(t_philo *philos)
@@ -105,7 +103,6 @@ void	eat(t_philo *philos)
 int	thread(t_philo *philos)
 {
 	int			i;
-	pthread_t	monitor_thread;
 
 	i = 0;
 	while (i < philos->rules->count_philos)
@@ -113,8 +110,7 @@ int	thread(t_philo *philos)
 		pthread_create(&philos->thread, NULL, &routine, (void *)&philos[i]);
 		i++;
 	}
-	i = 0;
-	pthread_create(&monitor_thread, NULL, monitor, philos);
-	pthread_join(monitor_thread, NULL);
+	if (monitor(philos))
+		return (1);
 	return (0);
 }
