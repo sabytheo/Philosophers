@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/26 15:15:52 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/26 22:06:34 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,26 +78,41 @@ int	monitor(t_philo *philo)
 
 void	eat(t_philo *philos)
 {
-	pthread_mutex_lock(philos->left_fork);
-	print_action(philos, "has taken a fork");
-	if (check_deaths(philos))
+	while (1)
 	{
-		pthread_mutex_unlock(philos->left_fork);
+		pthread_mutex_lock(&philos->left_fork->mutex);
+		pthread_mutex_lock(&philos->right_fork->mutex);
+		if (!philos->left_fork->is_taken && !philos->right_fork->is_taken)
+		{
+			philos->left_fork->is_taken = 1 ;
+			print_action(philos, "has taken a fork");
+			philos->right_fork->is_taken = 1 ;
+			print_action(philos, "has taken a fork");
+			pthread_mutex_unlock(&philos->left_fork->mutex);
+			pthread_mutex_unlock(&philos->right_fork->mutex);
+			break;
+		}
+		pthread_mutex_unlock(&philos->left_fork->mutex);
+		pthread_mutex_unlock(&philos->right_fork->mutex);
+		usleep(100);
+		break;
+	}
+		if(!check_deaths(philos))
+		{
+			print_action(philos, "is eating");
+			pthread_mutex_lock(&philos->rules->check_lastmeal);
+			philos->last_meal = get_current_time();
+			pthread_mutex_unlock(&philos->rules->check_lastmeal);
+			philos->count_meal++;
+			fake_sleep(philos->rules->time_to_eat);
+			pthread_mutex_lock(&philos->left_fork->mutex);
+			philos->left_fork->is_taken = 0 ;
+			pthread_mutex_unlock(&philos->left_fork->mutex);
+			pthread_mutex_lock(&philos->right_fork->mutex);
+			philos->right_fork->is_taken = 0 ;
+			pthread_mutex_unlock(&philos->right_fork->mutex);
+		}
 		return ;
-	}
-	else
-	{
-		pthread_mutex_lock(philos->right_fork);
-		print_action(philos, "has taken a fork");
-		print_action(philos, "is eating");
-		pthread_mutex_lock(&philos->rules->check_lastmeal);
-		philos->last_meal = get_current_time();
-		pthread_mutex_unlock(&philos->rules->check_lastmeal);
-		philos->count_meal++;
-		fake_sleep(philos->rules->time_to_eat);
-		pthread_mutex_unlock(philos->left_fork);
-		pthread_mutex_unlock(philos->right_fork);
-	}
 }
 
 int	thread(t_philo *philos)

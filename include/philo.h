@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/25 19:58:11 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/26 21:10:39 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@
 
 # define MAX_PHILO 200
 
+typedef struct s_fork
+{
+	int				is_taken;
+	pthread_mutex_t	mutex;
+}					t_fork;
+
 typedef struct s_rules
 {
 	int				count_philos;
@@ -32,7 +38,7 @@ typedef struct s_rules
 	int				time_to_sleep;
 	int				must_eat;
 	int				is_alive;
-	pthread_mutex_t	forks[MAX_PHILO];
+	t_fork			forks[MAX_PHILO];
 	pthread_mutex_t	writing;
 	pthread_mutex_t	check_death;
 	pthread_mutex_t	check_lastmeal;
@@ -45,8 +51,8 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				count_meal;
 	long			last_meal;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
+	t_fork			*left_fork;
+	t_fork			*right_fork;
 	t_rules			*rules;
 }					t_philo;
 

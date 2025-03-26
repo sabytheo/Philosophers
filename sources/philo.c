@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/25 18:12:00 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/26 21:12:21 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 		exit(EXIT_FAILURE);
 	while (i < rules->count_philos)
 	{
-		pthread_mutex_init(&rules->forks[i],NULL);
+		rules->forks[i].is_taken = 0;
+		pthread_mutex_init(&rules->forks[i].mutex,NULL);
 		i++;
 	}
 	pthread_mutex_init(&rules->writing, NULL);
@@ -64,7 +65,7 @@ void	destroy_mutex(t_rules *rules)
 
 	while (i < rules->count_philos)
 	{
-		pthread_mutex_destroy(&rules->forks[i]);
+		pthread_mutex_destroy(&rules->forks[i].mutex);
 		i++;
 	}
 	pthread_mutex_destroy(&rules->writing);
