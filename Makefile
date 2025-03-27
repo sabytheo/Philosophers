@@ -6,7 +6,7 @@
 #    By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 17:03:26 by tsaby             #+#    #+#              #
-#    Updated: 2025/03/26 22:05:35 by tsaby            ###   ########.fr        #
+#    Updated: 2025/03/27 15:57:44 by tsaby            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,8 +48,8 @@ HEAD_D		:=	.
 
 #*------------------------------------------------------------------------------*
 
-#CFLAGS		:=	-Wall -Wextra -Werror -g3
-CFLAGS		:=	-fsanitize=thread -Wall -Wextra -Werror -g3
+CFLAGS		:=	-Wall -Wextra -Werror -g3
+#CFLAGS		:=	-fsanitize=thread -Wall -Wextra -Werror -g3
 
 #*------------------------------------------------------------------------------*
 

@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/26 21:12:21 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/27 19:15:48 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 	rules->time_to_sleep = ft_atoi(argv[4]);
 	if (argc > 5)
 		rules->must_eat = ft_atoi(argv[5]);
+	else
+		rules->must_eat = -1;
 	if (rules->count_philos <= 0 || rules->time_to_die <= 0
 		|| rules->time_to_eat <= 0 || rules->time_to_sleep <= 0)
 		exit(EXIT_FAILURE);
@@ -51,37 +53,42 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 		philos[i].count_meal = 0;
 		philos[i].last_meal = get_current_time();
 		philos[i].rules = rules;
-		philos[i].left_fork = &rules->forks[i];
-		philos[i].right_fork = &rules->forks[(i + 1 % rules->count_philos)];
+		if (i % 2 == 0)
+		{
+			philos[i].left_fork = &rules->forks[i];
+			philos[i].right_fork = &rules->forks[(i + 1 % rules->count_philos)];
+		}
+		else
+		{
+			philos[i].right_fork = &rules->forks[(i + 1 % rules->count_philos)];
+			philos[i].left_fork = &rules->forks[i];
+		}
 		i++;
 	}
 }
 
-void	destroy_mutex(t_rules *rules)
-{
-	int i ;
 
-	i = 0;
-
-	while (i < rules->count_philos)
-	{
-		pthread_mutex_destroy(&rules->forks[i].mutex);
-		i++;
-	}
-	pthread_mutex_destroy(&rules->writing);
-}
 
 int	main(int argc, char **argv)
 {
 	t_philo	philos[MAX_PHILO];
 	t_rules	rules;
+	int i;
+	i = 0;
 
 	ft_memset(&philos, 0, sizeof(t_philo));
+	ft_memset(&philos, 0, sizeof(t_fork));
 	ft_memset(&rules, 0, sizeof(t_rules));
 	init_rules(&rules, argc, argv);
 	init_philos((t_philo *)philos, &rules);
-	thread(philos);
-	// printf("nombre de philo : %d\ntime_to_die : %d\ntime_to_eat : %d\ntime_to_sleep : %d\n start_time : %ld\n ", rules.count_philos,rules.time_to_die,rules.time_to_eat,rules.time_to_sleep,rules.start_time);
-	// destroy_mutex(&rules);
+	if (thread(philos))
+	{
+		while (i < philos->rules->count_philos)
+		{
+			if(pthread_join(philos[i].thread,NULL))
+				return (1);
+			i++;
+		}
+	}
 	return(0);
 }
