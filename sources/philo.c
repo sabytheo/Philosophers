@@ -6,11 +6,22 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/27 19:15:48 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/28 20:46:33 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+
+void	init_mutex(t_rules *rules)
+{
+	pthread_mutex_init(&rules->writing, NULL);
+	pthread_mutex_init(&rules->check_death, NULL);
+	pthread_mutex_init(&rules->check_lastmeal, NULL);
+	pthread_mutex_init(&rules->check_musteat, NULL);
+	pthread_mutex_init(&rules->check_isfull, NULL);
+	pthread_mutex_init(&rules->check_countmeal, NULL);
+}
 
 static int	init_rules(t_rules *rules, int argc, char **argv)
 {
@@ -32,15 +43,15 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 	while (i < rules->count_philos)
 	{
 		rules->forks[i].is_taken = 0;
-		pthread_mutex_init(&rules->forks[i].mutex,NULL);
+		pthread_mutex_init(&rules->forks[i].mutex, NULL);
 		i++;
 	}
-	pthread_mutex_init(&rules->writing, NULL);
-	pthread_mutex_init(&rules->check_death, NULL);
-	pthread_mutex_init(&rules->check_lastmeal, NULL);
+	init_mutex(rules);
 	rules->start_time = get_current_time();
 	return (0);
 }
+
+
 
 static void	init_philos(t_philo *philos, t_rules *rules)
 {
@@ -52,6 +63,7 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 		philos[i].id = i;
 		philos[i].count_meal = 0;
 		philos[i].last_meal = get_current_time();
+		philos[i].is_full = 0;
 		philos[i].rules = rules;
 		if (i % 2 == 0)
 		{
@@ -67,17 +79,16 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 	}
 }
 
-
-
 int	main(int argc, char **argv)
 {
 	t_philo	philos[MAX_PHILO];
 	t_rules	rules;
-	int i;
-	i = 0;
+	int		i;
 
+	i = 0;
+	if (argc > 6)
+		return (1);
 	ft_memset(&philos, 0, sizeof(t_philo));
-	ft_memset(&philos, 0, sizeof(t_fork));
 	ft_memset(&rules, 0, sizeof(t_rules));
 	init_rules(&rules, argc, argv);
 	init_philos((t_philo *)philos, &rules);
@@ -85,10 +96,10 @@ int	main(int argc, char **argv)
 	{
 		while (i < philos->rules->count_philos)
 		{
-			if(pthread_join(philos[i].thread,NULL))
+			if (pthread_join(philos[i].thread, NULL))
 				return (1);
 			i++;
 		}
 	}
-	return(0);
+	return (0);
 }

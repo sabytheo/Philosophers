@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/26 21:10:39 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/28 20:46:07 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define MAX_PHILO 200
+# define MAX_PHILO 201
 
 typedef struct s_fork
 {
@@ -42,6 +42,9 @@ typedef struct s_rules
 	pthread_mutex_t	writing;
 	pthread_mutex_t	check_death;
 	pthread_mutex_t	check_lastmeal;
+	pthread_mutex_t	check_musteat;
+	pthread_mutex_t	check_isfull;
+	pthread_mutex_t	check_countmeal;
 	long			start_time;
 }					t_rules;
 
@@ -51,6 +54,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				count_meal;
 	long			last_meal;
+	int				is_full;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
 	t_rules			*rules;
@@ -62,9 +66,13 @@ long				get_current_time(void);
 void				fake_sleep(long time);
 void				cancel_sim(t_rules *rules, t_philo *philos);
 int					check_deaths(t_philo *philo);
+int					check_isfull(t_philo *philo);
+int					check_ifallfull(t_philo *philo);
 
 int					thread(t_philo *philos);
 
-void				eat(t_philo *philo);
+void eat(t_philo *philo);
+
+int takes_forks(t_philo *philos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/27 19:11:54 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/28 20:44:55 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	print_action(t_philo *philos, char *action)
 {
+	if (check_deaths(philos))
+		return ;
 	pthread_mutex_lock(&philos->rules->writing);
 	printf("%ld %d %s\n", (get_current_time() - philos->rules->start_time),
 		philos->id, action);
@@ -25,9 +27,9 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (philo->rules->is_alive)
+	while (1)
 	{
-		if (check_deaths(philo))
+		if (check_deaths(philo) || check_isfull(philo))
 			break ;
 		else
 			eat(philo);
@@ -50,11 +52,24 @@ int	monitor(t_philo *philo)
 {
 	int	i;
 
+	i = 0;
 	while (1)
 	{
+		if (check_deaths(philo) || check_ifallfull(philo))
+			return (1);
 		i = 0;
 		while (i < philo->rules->count_philos)
 		{
+			pthread_mutex_lock(&philo->rules->check_musteat);
+			pthread_mutex_lock(&philo->rules->check_countmeal);
+			if (philo[i].count_meal == philo->rules->must_eat)
+			{
+				pthread_mutex_lock(&philo->rules->check_isfull);
+				philo[i].is_full = 1;
+				pthread_mutex_unlock(&philo->rules->check_isfull);
+			}
+			pthread_mutex_unlock(&philo->rules->check_countmeal);
+			pthread_mutex_unlock(&philo->rules->check_musteat);
 			pthread_mutex_lock(&philo->rules->check_lastmeal);
 			if (philo->rules->is_alive && get_current_time()
 				- philo[i].last_meal > philo->rules->time_to_die)
@@ -69,10 +84,27 @@ int	monitor(t_philo *philo)
 			pthread_mutex_unlock(&philo->rules->check_lastmeal);
 			i++;
 		}
-		if (check_deaths(philo))
-			return (1);
-		usleep(10);
+		usleep(100);
 	}
+	return (0);
+}
+int	takes_forks(t_philo *philos)
+{
+	pthread_mutex_lock(&philos->left_fork->mutex);
+	pthread_mutex_lock(&philos->right_fork->mutex);
+	if (!philos->left_fork->is_taken && !philos->right_fork->is_taken
+		&& !check_deaths(philos))
+	{
+		philos->left_fork->is_taken = 1;
+		print_action(philos, "has taken a fork");
+		philos->right_fork->is_taken = 1;
+		print_action(philos, "has taken a fork");
+		pthread_mutex_unlock(&philos->left_fork->mutex);
+		pthread_mutex_unlock(&philos->right_fork->mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philos->left_fork->mutex);
+	pthread_mutex_unlock(&philos->right_fork->mutex);
 	return (0);
 }
 
@@ -82,22 +114,7 @@ void	eat(t_philo *philos)
 	{
 		if (!check_deaths(philos))
 		{
-			pthread_mutex_lock(&philos->left_fork->mutex);
-			pthread_mutex_lock(&philos->right_fork->mutex);
-			if (!philos->left_fork->is_taken && !philos->right_fork->is_taken
-				&& !check_deaths(philos))
-			{
-				philos->left_fork->is_taken = 1;
-				print_action(philos, "has taken a fork");
-				philos->right_fork->is_taken = 1;
-				print_action(philos, "has taken a fork");
-				pthread_mutex_unlock(&philos->left_fork->mutex);
-				pthread_mutex_unlock(&philos->right_fork->mutex);
-				break ;
-			}
-			pthread_mutex_unlock(&philos->left_fork->mutex);
-			pthread_mutex_unlock(&philos->right_fork->mutex);
-			usleep(100);
+			takes_forks(philos);
 			break ;
 		}
 	}
@@ -111,7 +128,9 @@ void	eat(t_philo *philos)
 			pthread_mutex_lock(&philos->rules->check_lastmeal);
 			philos->last_meal = get_current_time();
 			pthread_mutex_unlock(&philos->rules->check_lastmeal);
+			pthread_mutex_lock(&philos->rules->check_countmeal);
 			philos->count_meal++;
+			pthread_mutex_unlock(&philos->rules->check_countmeal);
 			fake_sleep(philos->rules->time_to_eat);
 			philos->left_fork->is_taken = 0;
 			pthread_mutex_unlock(&philos->left_fork->mutex);
@@ -132,7 +151,7 @@ int	thread(t_philo *philos)
 	i = 0;
 	while (i < philos->rules->count_philos)
 	{
-		if(pthread_create(&philos[i].thread, NULL, &routine, &philos[i]))
+		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]))
 			return (1);
 		i++;
 	}
