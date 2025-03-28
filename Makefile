@@ -6,7 +6,7 @@
 #    By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 17:03:26 by tsaby             #+#    #+#              #
-#    Updated: 2025/03/28 14:16:07 by tsaby            ###   ########.fr        #
+#    Updated: 2025/03/28 21:04:40 by tsaby            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ NC		:= \033[0m
 
 SRCS		:=	philo.c	\
 				utils.c	\
-				thread.c
+				thread.c \
+				eat.c
 
 
 #SRCS_BONUS	:=

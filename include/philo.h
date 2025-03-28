@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/28 20:46:07 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/28 21:16:05 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ int					check_ifallfull(t_philo *philo);
 
 int					thread(t_philo *philos);
 
-void eat(t_philo *philo);
-
-int takes_forks(t_philo *philos);
+void				eat(t_philo *philo);
+int					while_eating(t_philo *philos);
+int					takes_forks(t_philo *philos);
+void				print_action(t_philo *philos, char *action);
 
 #endif
