@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/28 21:25:43 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/31 12:28:05 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,33 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+static int	state_philo(t_philo *philo, int i)
+{
+	pthread_mutex_lock(&philo->rules->check_musteat);
+	pthread_mutex_lock(&philo->rules->check_countmeal);
+	if (philo[i].count_meal == philo->rules->must_eat)
+	{
+		pthread_mutex_lock(&philo->rules->check_isfull);
+		philo[i].is_full = 1;
+		pthread_mutex_unlock(&philo->rules->check_isfull);
+	}
+	pthread_mutex_unlock(&philo->rules->check_countmeal);
+	pthread_mutex_unlock(&philo->rules->check_musteat);
+	pthread_mutex_lock(&philo->rules->check_lastmeal);
+	if (philo->rules->is_alive && get_current_time()
+		- philo[i].last_meal > philo->rules->time_to_die)
+	{
+		print_action(&philo[i], "died");
+		pthread_mutex_lock(&philo->rules->check_death);
+		philo->rules->is_alive = 0;
+		pthread_mutex_unlock(&philo->rules->check_death);
+		pthread_mutex_unlock(&philo->rules->check_lastmeal);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->rules->check_lastmeal);
+	return (0);
+}
+
 int	monitor(t_philo *philo)
 {
 	int	i;
@@ -60,36 +87,14 @@ int	monitor(t_philo *philo)
 		i = 0;
 		while (i < philo->rules->count_philos)
 		{
-			pthread_mutex_lock(&philo->rules->check_musteat);
-			pthread_mutex_lock(&philo->rules->check_countmeal);
-			if (philo[i].count_meal == philo->rules->must_eat)
-			{
-				pthread_mutex_lock(&philo->rules->check_isfull);
-				philo[i].is_full = 1;
-				pthread_mutex_unlock(&philo->rules->check_isfull);
-			}
-			pthread_mutex_unlock(&philo->rules->check_countmeal);
-			pthread_mutex_unlock(&philo->rules->check_musteat);
-			pthread_mutex_lock(&philo->rules->check_lastmeal);
-			if (philo->rules->is_alive && get_current_time()
-				- philo[i].last_meal > philo->rules->time_to_die)
-			{
-				print_action(&philo[i], "died");
-				pthread_mutex_lock(&philo->rules->check_death);
-				philo->rules->is_alive = 0;
-				pthread_mutex_unlock(&philo->rules->check_death);
-				pthread_mutex_unlock(&philo->rules->check_lastmeal);
+			if (state_philo(philo, i))
 				return (1);
-			}
-			pthread_mutex_unlock(&philo->rules->check_lastmeal);
 			i++;
 		}
 		usleep(100);
 	}
 	return (0);
 }
-
-
 
 int	thread(t_philo *philos)
 {

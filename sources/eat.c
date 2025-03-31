@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 20:59:11 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/28 21:25:51 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/31 11:23:24 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	eat(t_philo *philos)
 	{
 		if (!check_deaths(philos))
 			takes_forks(philos);
-		break;
+		break ;
 	}
 	if (!check_deaths(philos))
 		while_eating(philos);

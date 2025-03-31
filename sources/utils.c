@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/28 16:21:32 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/31 11:22:49 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_isfull(t_philo *philo)
 int	check_ifallfull(t_philo *philo)
 {
 	int	i;
-	int size;
+	int	size;
 
 	i = 0;
 	size = philo->rules->count_philos;

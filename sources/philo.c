@@ -6,14 +6,13 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/28 20:46:33 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/31 12:30:45 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-void	init_mutex(t_rules *rules)
+static void	init_mutex(t_rules *rules)
 {
 	pthread_mutex_init(&rules->writing, NULL);
 	pthread_mutex_init(&rules->check_death, NULL);
@@ -51,8 +50,6 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 	return (0);
 }
 
-
-
 static void	init_philos(t_philo *philos, t_rules *rules)
 {
 	int	i;
@@ -60,7 +57,7 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 	i = 0;
 	while (i < rules->count_philos)
 	{
-		philos[i].id = i;
+		philos[i].id = i + 1;
 		philos[i].count_meal = 0;
 		philos[i].last_meal = get_current_time();
 		philos[i].is_full = 0;

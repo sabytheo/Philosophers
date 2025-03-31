@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/28 21:16:05 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/31 12:32:33 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define MAX_PHILO 201
+# define MAX_PHILO 200
 
 typedef struct s_fork
 {
