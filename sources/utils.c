@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/31 11:22:49 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/31 16:05:49 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int	check_ifallfull(t_philo *philo)
 	while (i < size)
 	{
 		if (philo[i].is_full == 0)
-			return (0);
+			{
+				return (0);
+			}
 		i++;
 	}
 	return (1);

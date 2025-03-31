@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/31 12:30:45 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/03/31 16:00:04 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,24 @@ int	main(int argc, char **argv)
 	t_rules	rules;
 	int		i;
 
-	i = 0;
-	if (argc > 6)
-		return (1);
-	ft_memset(&philos, 0, sizeof(t_philo));
-	ft_memset(&rules, 0, sizeof(t_rules));
-	init_rules(&rules, argc, argv);
-	init_philos((t_philo *)philos, &rules);
-	if (thread(philos))
+	if (argc == 5 || argc == 6)
 	{
-		while (i < philos->rules->count_philos)
+		i = 0;
+		ft_memset(&philos, 0, sizeof(t_philo));
+		ft_memset(&rules, 0, sizeof(t_rules));
+		init_rules(&rules, argc, argv);
+		init_philos((t_philo *)philos, &rules);
+		if (thread(philos))
 		{
-			if (pthread_join(philos[i].thread, NULL))
-				return (1);
-			i++;
+			while (i < philos->rules->count_philos)
+			{
+				if (pthread_join(philos[i].thread, NULL))
+					return (1);
+				i++;
+			}
 		}
+		return (0);
 	}
-	return (0);
+	else
+		return (1);
 }
