@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 20:59:11 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/31 11:23:24 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/03 10:44:11 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 int	takes_forks(t_philo *philos)
 {
-	pthread_mutex_lock(&philos->left_fork->mutex);
-	pthread_mutex_lock(&philos->right_fork->mutex);
+	t_fork	*first_fork;
+	t_fork	*second_fork;
+
+	first_fork = philos->left_fork;
+	second_fork = philos->right_fork;
+	if (first_fork > second_fork)
+	{
+		first_fork = philos->right_fork;
+		second_fork = philos->left_fork;
+	}
+	pthread_mutex_lock(&first_fork->mutex);
+	pthread_mutex_lock(&second_fork->mutex);
 	if (!philos->left_fork->is_taken && !philos->right_fork->is_taken
 		&& !check_deaths(philos))
 	{
@@ -23,19 +33,29 @@ int	takes_forks(t_philo *philos)
 		print_action(philos, "has taken a fork");
 		philos->right_fork->is_taken = 1;
 		print_action(philos, "has taken a fork");
-		pthread_mutex_unlock(&philos->left_fork->mutex);
-		pthread_mutex_unlock(&philos->right_fork->mutex);
+		pthread_mutex_unlock(&first_fork->mutex);
+		pthread_mutex_unlock(&second_fork->mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(&philos->left_fork->mutex);
-	pthread_mutex_unlock(&philos->right_fork->mutex);
+	pthread_mutex_unlock(&first_fork->mutex);
+	pthread_mutex_unlock(&second_fork->mutex);
 	return (0);
 }
 
 int	while_eating(t_philo *philos)
 {
-	pthread_mutex_lock(&philos->left_fork->mutex);
-	pthread_mutex_lock(&philos->right_fork->mutex);
+	t_fork	*first_fork;
+	t_fork	*second_fork;
+
+	first_fork = philos->left_fork;
+	second_fork = philos->right_fork;
+	if (philos->left_fork > philos->right_fork)
+	{
+		first_fork = philos->right_fork;
+		second_fork = philos->left_fork;
+	}
+	pthread_mutex_lock(&first_fork->mutex);
+	pthread_mutex_lock(&second_fork->mutex);
 	if (philos->left_fork->is_taken && philos->right_fork->is_taken)
 	{
 		print_action(philos, "is eating");
@@ -47,15 +67,13 @@ int	while_eating(t_philo *philos)
 		pthread_mutex_unlock(&philos->rules->check_countmeal);
 		fake_sleep(philos->rules->time_to_eat);
 		philos->left_fork->is_taken = 0;
-		pthread_mutex_unlock(&philos->left_fork->mutex);
 		philos->right_fork->is_taken = 0;
-		pthread_mutex_unlock(&philos->right_fork->mutex);
-		return (1);
 	}
-	pthread_mutex_unlock(&philos->left_fork->mutex);
-	pthread_mutex_unlock(&philos->right_fork->mutex);
-	return (0);
+	pthread_mutex_unlock(&first_fork->mutex);
+	pthread_mutex_unlock(&second_fork->mutex);
+	return (1);
 }
+
 
 void	eat(t_philo *philos)
 {

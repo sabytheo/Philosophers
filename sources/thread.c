@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/31 12:28:05 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/03 11:05:17 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,14 @@ void	*routine(void *arg)
 	{
 		if (check_deaths(philo) || check_isfull(philo))
 			break ;
-		else
-			eat(philo);
+		eat(philo);
 		if (check_deaths(philo))
 			break ;
-		else
-		{
-			print_action(philo, "is sleeping");
-			fake_sleep(philo->rules->time_to_sleep);
-		}
+		print_action(philo, "is sleeping");
+		fake_sleep(philo->rules->time_to_sleep);
 		if (check_deaths(philo))
 			break ;
-		else
-			print_action(philo, "is thinking");
+		print_action(philo, "is thinking");
 	}
 	return (NULL);
 }
@@ -108,6 +103,9 @@ int	thread(t_philo *philos)
 		i++;
 	}
 	if (monitor(philos))
+	{
+		ft_printf(" ccc\n");
 		return (1);
+	}
 	return (0);
 }

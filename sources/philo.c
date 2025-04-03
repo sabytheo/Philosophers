@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/31 16:00:04 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/03 11:05:43 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 		if (i % 2 == 0)
 		{
 			philos[i].left_fork = &rules->forks[i];
-			philos[i].right_fork = &rules->forks[(i + 1 % rules->count_philos)];
+			philos[i].right_fork = &rules->forks[(i + 1) % rules->count_philos];
 		}
 		else
 		{
-			philos[i].right_fork = &rules->forks[(i + 1 % rules->count_philos)];
+			philos[i].right_fork = &rules->forks[(i + 1) % rules->count_philos];
 			philos[i].left_fork = &rules->forks[i];
 		}
 		i++;
@@ -84,17 +84,20 @@ int	main(int argc, char **argv)
 
 	if (argc == 5 || argc == 6)
 	{
-		i = 0;
-		ft_memset(&philos, 0, sizeof(t_philo));
-		ft_memset(&rules, 0, sizeof(t_rules));
+		ft_memset(&philos, 0, sizeof(philos));
+		ft_memset(&rules, 0, sizeof(rules));
 		init_rules(&rules, argc, argv);
 		init_philos((t_philo *)philos, &rules);
 		if (thread(philos))
 		{
+			i = 0;
 			while (i < philos->rules->count_philos)
 			{
 				if (pthread_join(philos[i].thread, NULL))
+				{
+					ft_printf("Error : Failed to join threads\n");
 					return (1);
+				}
 				i++;
 			}
 		}

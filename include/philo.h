@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/31 12:32:33 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/03 09:08:02 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_philo
 
 long				get_current_time(void);
 void				fake_sleep(long time);
-void				cancel_sim(t_rules *rules, t_philo *philos);
 int					check_deaths(t_philo *philo);
 int					check_isfull(t_philo *philo);
 int					check_ifallfull(t_philo *philo);
