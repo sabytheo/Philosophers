@@ -6,19 +6,14 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 20:59:11 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/03 10:44:11 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/05 23:28:37 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	takes_forks(t_philo *philos)
+int	takes_forks(t_philo *philos, t_fork *first_fork, t_fork *second_fork)
 {
-	t_fork	*first_fork;
-	t_fork	*second_fork;
-
-	first_fork = philos->left_fork;
-	second_fork = philos->right_fork;
 	if (first_fork > second_fork)
 	{
 		first_fork = philos->right_fork;
@@ -42,13 +37,8 @@ int	takes_forks(t_philo *philos)
 	return (0);
 }
 
-int	while_eating(t_philo *philos)
+int	while_eating(t_philo *philos, t_fork *first_fork, t_fork *second_fork)
 {
-	t_fork	*first_fork;
-	t_fork	*second_fork;
-
-	first_fork = philos->left_fork;
-	second_fork = philos->right_fork;
 	if (philos->left_fork > philos->right_fork)
 	{
 		first_fork = philos->right_fork;
@@ -74,16 +64,20 @@ int	while_eating(t_philo *philos)
 	return (1);
 }
 
-
 void	eat(t_philo *philos)
 {
+	t_fork	*first_fork;
+	t_fork	*second_fork;
+
+	first_fork = philos->left_fork;
+	second_fork = philos->right_fork;
 	while (1)
 	{
 		if (!check_deaths(philos))
-			takes_forks(philos);
+			takes_forks(philos, first_fork, second_fork);
 		break ;
 	}
 	if (!check_deaths(philos))
-		while_eating(philos);
+		while_eating(philos, first_fork, second_fork);
 	return ;
 }

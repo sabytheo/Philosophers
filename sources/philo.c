@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/03 11:05:43 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/05 22:46:32 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 		i++;
 	}
 	init_mutex(rules);
+	rules->evr1_full = 0;
 	rules->start_time = get_current_time();
 	return (0);
 }

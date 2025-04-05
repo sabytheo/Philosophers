@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/03/31 16:05:49 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/05 22:56:38 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_deaths(t_philo *philo)
 int	check_isfull(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->rules->check_isfull);
-	if (philo->is_full == 1)
+	if (philo->rules->evr1_full == 1)
 	{
 		pthread_mutex_unlock(&philo->rules->check_isfull);
 		return (1);
@@ -68,5 +68,8 @@ int	check_ifallfull(t_philo *philo)
 			}
 		i++;
 	}
+	pthread_mutex_lock(&philo->rules->check_isfull);
+	philo->rules->evr1_full  = 1;
+	pthread_mutex_unlock(&philo->rules->check_isfull);
 	return (1);
 }

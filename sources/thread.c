@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/03 11:05:17 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/05 23:00:03 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_action(t_philo *philos, char *action)
 {
-	if (check_deaths(philos))
+	if (check_deaths(philos) || check_isfull(philos))
 		return ;
 	pthread_mutex_lock(&philos->rules->writing);
 	printf("%ld %d %s\n", (get_current_time() - philos->rules->start_time),
@@ -104,7 +104,6 @@ int	thread(t_philo *philos)
 	}
 	if (monitor(philos))
 	{
-		ft_printf(" ccc\n");
 		return (1);
 	}
 	return (0);

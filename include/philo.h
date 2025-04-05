@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/03 09:08:02 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/05 23:32:50 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_rules
 	int				time_to_sleep;
 	int				must_eat;
 	int				is_alive;
+	int				evr1_full;
 	t_fork			forks[MAX_PHILO];
 	pthread_mutex_t	writing;
 	pthread_mutex_t	check_death;
@@ -67,12 +68,10 @@ void				fake_sleep(long time);
 int					check_deaths(t_philo *philo);
 int					check_isfull(t_philo *philo);
 int					check_ifallfull(t_philo *philo);
-
 int					thread(t_philo *philos);
-
 void				eat(t_philo *philo);
-int					while_eating(t_philo *philos);
-int					takes_forks(t_philo *philos);
+int					while_eating(t_philo *philos, t_fork *first_fork, t_fork *second_fork);
+int					takes_forks(t_philo *philos , t_fork *first_fork, t_fork *second_fork);
 void				print_action(t_philo *philos, char *action);
 
 #endif
