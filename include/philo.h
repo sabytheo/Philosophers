@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/05 23:32:50 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/07 11:10:37 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
 # define MAX_PHILO 200
 
@@ -73,5 +74,8 @@ void				eat(t_philo *philo);
 int					while_eating(t_philo *philos, t_fork *first_fork, t_fork *second_fork);
 int					takes_forks(t_philo *philos , t_fork *first_fork, t_fork *second_fork);
 void				print_action(t_philo *philos, char *action);
+
+int check_value(int argc, char **argv);
+int	check_args(int argc, char **argv);
 
 #endif

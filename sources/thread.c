@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/05 23:00:03 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:43:59 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
+		if (philo->rules->count_philos == 1)
+			break ;
 		if (check_deaths(philo) || check_isfull(philo))
 			break ;
 		eat(philo);

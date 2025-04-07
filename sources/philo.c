@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/05 22:46:32 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:45:12 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ static void	init_mutex(t_rules *rules)
 	pthread_mutex_init(&rules->check_countmeal, NULL);
 }
 
-static int	init_rules(t_rules *rules, int argc, char **argv)
+int	set_value(t_rules *rules, int argc, char **argv)
 {
-	int	i;
-
-	i = 0;
 	rules->is_alive = 1;
 	rules->count_philos = ft_atoi(argv[1]);
 	rules->time_to_die = ft_atoi(argv[2]);
@@ -36,9 +33,20 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 		rules->must_eat = ft_atoi(argv[5]);
 	else
 		rules->must_eat = -1;
-	if (rules->count_philos <= 0 || rules->time_to_die <= 0
-		|| rules->time_to_eat <= 0 || rules->time_to_sleep <= 0)
+	if (rules->count_philos <= 0 || rules->count_philos > 200
+		|| rules->time_to_die <= 0 || rules->time_to_eat <= 0
+		|| rules->time_to_sleep <= 0 || rules->must_eat == 0)
 		exit(EXIT_FAILURE);
+	return (0);
+}
+
+static int	init_rules(t_rules *rules, int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (set_value(rules, argc, argv))
+		return (1);
 	while (i < rules->count_philos)
 	{
 		rules->forks[i].is_taken = 0;
@@ -85,25 +93,22 @@ int	main(int argc, char **argv)
 
 	if (argc == 5 || argc == 6)
 	{
+		if (check_args(argc, argv) || check_value(argc, argv))
+			return (1);
 		ft_memset(&philos, 0, sizeof(philos));
 		ft_memset(&rules, 0, sizeof(rules));
-		init_rules(&rules, argc, argv);
+		if (init_rules(&rules, argc, argv))
+			return (printf("Error\nan init issues"), 1);
 		init_philos((t_philo *)philos, &rules);
 		if (thread(philos))
 		{
 			i = 0;
 			while (i < philos->rules->count_philos)
-			{
-				if (pthread_join(philos[i].thread, NULL))
-				{
-					ft_printf("Error : Failed to join threads\n");
-					return (1);
-				}
-				i++;
-			}
+				if (pthread_join(philos[i++].thread, NULL))
+					return (printf("Error : Failed to join threads\n"), 1);
 		}
 		return (0);
 	}
 	else
-		return (1);
+		return (printf("Error, check the usage for using this program"), 1);
 }

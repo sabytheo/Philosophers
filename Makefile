@@ -6,7 +6,7 @@
 #    By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 17:03:26 by tsaby             #+#    #+#              #
-#    Updated: 2025/04/05 23:33:17 by tsaby            ###   ########.fr        #
+#    Updated: 2025/04/07 17:34:44 by tsaby            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ NC		:= \033[0m
 SRCS		:=	philo.c	\
 				utils.c	\
 				thread.c \
-				eat.c
+				eat.c \
+				check_args.c
 
 
 #SRCS_BONUS	:=
@@ -48,9 +49,8 @@ HEAD_BONUS	:=	include/philo_bonus.h \
 HEAD_D		:=	.
 
 #*------------------------------------------------------------------------------*
-
-#CFLAGS		:=	-Wall -Wextra -Werror -g3
-CFLAGS		:=	-fsanitize=thread -Wall -Wextra -Werror -g3
+CFLAGS		:=	-Wall -Wextra -Werror -g3
+#CFLAGS		:=	-fsanitize=thread -Wall -Wextra -Werror -g3
 
 #*------------------------------------------------------------------------------*
 

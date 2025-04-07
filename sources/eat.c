@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 20:59:11 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/05 23:28:37 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:43:48 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	eat(t_philo *philos)
 
 	first_fork = philos->left_fork;
 	second_fork = philos->right_fork;
+	if (philos->rules->count_philos == 1)
+		return ;
 	while (1)
 	{
 		if (!check_deaths(philos))
