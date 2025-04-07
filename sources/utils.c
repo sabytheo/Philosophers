@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/07 18:23:37 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/07 18:39:52 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ long	get_current_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	fake_sleep(long time, t_philo *philos)
+void	fake_sleep(long time)
 {
 	long	start;
 
 	start = get_current_time();
-	while (get_current_time() - start < time || philos->rules->is_alive)
+	while (get_current_time() - start < time)
 		usleep(100);
 }
 
@@ -43,6 +43,8 @@ int	check_deaths(t_philo *philo)
 
 int	check_isfull(t_philo *philo)
 {
+	if (philo->rules->must_eat == -1)
+		return (0);
 	pthread_mutex_lock(&philo->rules->check_isfull);
 	if (philo->rules->evr1_full == 1)
 	{
@@ -58,6 +60,8 @@ int	check_ifallfull(t_philo *philo)
 	int	i;
 	int	size;
 
+	if (philo->rules->must_eat == -1)
+		return (0);
 	i = 0;
 	size = philo->rules->count_philos;
 	while (i < size)
