@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/07 18:35:17 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 11:08:23 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*routine(void *arg)
 		if (check_deaths(philo))
 			break ;
 		print_action(philo, "is sleeping");
-		fake_sleep(philo->rules->time_to_sleep);
+		fake_sleep(philo->rules->time_to_sleep, philo);
 		if (check_deaths(philo))
 			break ;
 		print_action(philo, "is thinking");

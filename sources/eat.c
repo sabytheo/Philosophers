@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 20:59:11 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/07 18:35:30 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 13:27:23 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	while_eating(t_philo *philos, t_fork *first_fork, t_fork *second_fork)
 		pthread_mutex_lock(&philos->rules->check_countmeal);
 		philos->count_meal++;
 		pthread_mutex_unlock(&philos->rules->check_countmeal);
-		fake_sleep(philos->rules->time_to_eat);
+		fake_sleep(philos->rules->time_to_eat, philos);
 		philos->left_fork->is_taken = 0;
 		philos->right_fork->is_taken = 0;
 	}

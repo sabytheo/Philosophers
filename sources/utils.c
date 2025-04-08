@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/07 18:39:52 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 13:27:14 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,22 @@ long	get_current_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	fake_sleep(long time)
+void	fake_sleep(long time, t_philo *philos)
 {
 	long	start;
 
 	start = get_current_time();
 	while (get_current_time() - start < time)
+	{
+		pthread_mutex_lock(&philos->rules->check_death);
+		if (!philos->rules->is_alive)
+		{
+			pthread_mutex_unlock(&philos->rules->check_death);
+			break ;
+		}
+		pthread_mutex_unlock(&philos->rules->check_death);
 		usleep(100);
+	}
 }
 
 int	check_deaths(t_philo *philo)

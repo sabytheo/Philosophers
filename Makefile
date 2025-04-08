@@ -6,7 +6,7 @@
 #    By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 17:03:26 by tsaby             #+#    #+#              #
-#    Updated: 2025/04/07 18:41:46 by tsaby            ###   ########.fr        #
+#    Updated: 2025/04/08 11:19:07 by tsaby            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,8 +49,8 @@ HEAD_BONUS	:=	include/philo_bonus.h \
 HEAD_D		:=	.
 
 #*------------------------------------------------------------------------------*
-CFLAGS		:=	-Wall -Wextra -Werror -g3
-#CFLAGS		:=	-fsanitize=thread -Wall -Wextra -Werror -g3
+#CFLAGS		:=	-Wall -Wextra -Werror -g3
+CFLAGS		:=	-fsanitize=thread -Wall -Wextra -Werror -g3
 
 #*------------------------------------------------------------------------------*
 
