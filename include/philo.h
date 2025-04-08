@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 11:08:06 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 14:40:58 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,22 @@ typedef struct s_philo
 	t_rules			*rules;
 }					t_philo;
 
-/* utils*/
-
 long				get_current_time(void);
 void				fake_sleep(long time, t_philo *philos);
+int					check_value(int argc, char **argv);
+int					check_args(int argc, char **argv);
 int					check_deaths(t_philo *philo);
 int					check_isfull(t_philo *philo);
 int					check_ifallfull(t_philo *philo);
+
 int					thread(t_philo *philos);
+
 void				eat(t_philo *philo);
 int					while_eating(t_philo *philos, t_fork *first_fork,
 						t_fork *second_fork);
 int					takes_forks(t_philo *philos, t_fork *first_fork,
 						t_fork *second_fork);
-void				print_action(t_philo *philos, char *action);
 
-int					check_value(int argc, char **argv);
-int					check_args(int argc, char **argv);
+void				print_action(t_philo *philos, char *action);
 
 #endif

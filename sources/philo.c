@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/07 17:45:12 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 14:00:30 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	set_value(t_rules *rules, int argc, char **argv)
 		rules->must_eat = ft_atoi(argv[5]);
 	else
 		rules->must_eat = -1;
-	if (rules->count_philos <= 0 || rules->count_philos > 200
+	if (rules->count_philos <= 0 || rules->count_philos > MAX_PHILO
 		|| rules->time_to_die <= 0 || rules->time_to_eat <= 0
 		|| rules->time_to_sleep <= 0 || rules->must_eat == 0)
 		exit(EXIT_FAILURE);
