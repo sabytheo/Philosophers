@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 14:40:58 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 15:44:32 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_rules
 	int				time_to_sleep;
 	int				must_eat;
 	int				is_alive;
-	int				evr1_full;
+	int				all_full;
 	t_fork			forks[MAX_PHILO];
 	pthread_mutex_t	writing;
 	pthread_mutex_t	check_death;

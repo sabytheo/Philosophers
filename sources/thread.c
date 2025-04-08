@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 11:08:23 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 15:59:39 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ int	thread(t_philo *philos)
 	while (i < philos->rules->count_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]))
+		{
+			ft_putstr_fd("Failed to create threads", 2);
 			return (1);
+		}
 		i++;
 	}
 	if (monitor(philos))

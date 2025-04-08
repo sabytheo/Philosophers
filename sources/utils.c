@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 13:27:14 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 15:44:32 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ long	get_current_time(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 void	fake_sleep(long time, t_philo *philos)
@@ -55,7 +55,7 @@ int	check_isfull(t_philo *philo)
 	if (philo->rules->must_eat == -1)
 		return (0);
 	pthread_mutex_lock(&philo->rules->check_isfull);
-	if (philo->rules->evr1_full == 1)
+	if (philo->rules->all_full == 1)
 	{
 		pthread_mutex_unlock(&philo->rules->check_isfull);
 		return (1);
@@ -82,7 +82,7 @@ int	check_ifallfull(t_philo *philo)
 		i++;
 	}
 	pthread_mutex_lock(&philo->rules->check_isfull);
-	philo->rules->evr1_full = 1;
+	philo->rules->all_full = 1;
 	pthread_mutex_unlock(&philo->rules->check_isfull);
 	return (1);
 }

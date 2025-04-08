@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:49:48 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/07 14:34:33 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/08 15:37:24 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_args(int argc, char **argv)
 		{
 			if (!ft_isdigit(argv[i][j]))
 			{
-				printf("Error:\narguments must be digit");
+				printf("Error:\nargs must be digit");
 				return (1);
 			}
 			j++;
