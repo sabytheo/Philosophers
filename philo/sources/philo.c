@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 15:44:32 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/10 11:27:25 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,10 @@ int	main(int argc, char **argv)
 			i = 0;
 			while (i < philos->rules->count_philos)
 				if (pthread_join(philos[i++].thread, NULL))
-					return (ft_putstr_fd("Failed to join threads", 2), 1);
+					return (destroy_mutex(philos),
+						ft_putstr_fd("Failed to join threads", 2), 1);
 		}
-		return (0);
+		return (destroy_mutex(philos), 0);
 	}
 	else
 		return (ft_putstr_fd("Error :\ncheck the usage", 2), 1);

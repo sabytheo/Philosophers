@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 15:44:32 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/10 10:47:09 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ int					takes_forks(t_philo *philos, t_fork *first_fork,
 						t_fork *second_fork);
 
 void				print_action(t_philo *philos, char *action);
+void				destroy_mutex(t_philo *philos);
 
 #endif

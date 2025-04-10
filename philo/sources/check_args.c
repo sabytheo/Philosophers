@@ -6,11 +6,34 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:49:48 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 15:37:24 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/10 11:19:12 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	destroy_mutex(t_philo *philos)
+{
+	int	i;
+
+	if (!philos)
+		return ;
+	if (philos->left_fork && philos->right_fork)
+	{
+		i = 0;
+		while (i < philos->rules->count_philos)
+		{
+			pthread_mutex_destroy(&philos->rules->forks[i].mutex);
+			i++;
+		}
+	}
+	pthread_mutex_destroy(&philos->rules->writing);
+	pthread_mutex_destroy(&philos->rules->check_countmeal);
+	pthread_mutex_destroy(&philos->rules->check_death);
+	pthread_mutex_destroy(&philos->rules->check_isfull);
+	pthread_mutex_destroy(&philos->rules->check_lastmeal);
+	pthread_mutex_destroy(&philos->rules->check_musteat);
+}
 
 static long	ft_atol(const char *str)
 {
