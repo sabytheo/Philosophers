@@ -6,7 +6,7 @@
 #    By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 17:03:26 by tsaby             #+#    #+#              #
-#    Updated: 2025/04/08 18:02:39 by tsaby            ###   ########.fr        #
+#    Updated: 2025/04/11 14:04:10 by tsaby            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS		:=	philo.c	\
 				utils.c	\
 				thread.c \
 				eat.c \
-				check_args.c
+				check_args.c \
+				definitely_not_libft.c
 
 
 #SRCS_BONUS	:=
@@ -60,9 +61,9 @@ NAME		:=	philo
 
 #*------------------------------------------------------------------------------*
 
-LIBFT		=	Libft/
+#LIBFT		=	Libft/
 
-LIBFT_A		=	$(addprefix $(LIBFT), libft_ex.a)
+#LIBFT_A		=	$(addprefix $(LIBFT), libft_ex.a)
 
 #*------------------------------------------------------------------------------*
 
@@ -74,8 +75,8 @@ all			:
 
 #*------------------------------------------------------------------------------*
 
-$(NAME)		:	$(OBJS_D) $(OBJS) $(LIBFT_A) $(HEAD)
-				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)  -Lft_ex $(LIBFT_A)
+$(NAME)		:	$(OBJS_D) $(OBJS) $(HEAD)
+				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 				@echo "$(YELLOW)$(NAME) successfully built!$(NC)"
 
 #$(NAME_B)	:	$(OBJS_B_D) $(OBJS_B) $(LIBFT_A) $(HEAD_BONUS)
@@ -84,14 +85,14 @@ $(NAME)		:	$(OBJS_D) $(OBJS) $(LIBFT_A) $(HEAD)
 
 $(OBJS)		:	$(OBJS_D)%.o: $(SRCS_D)%.c $(HEAD)
 				@echo "$(YELLOW)Compiling $<, depends on $(HEAD)...$(NC)"
-				@$(CC) $(CFLAGS) -Iinclude -I$(LIBFT)/includes -c $< -o $@
+				@$(CC) $(CFLAGS) -Iinclude -c $< -o $@
 
 #$(OBJS_B)	:	$(OBJS_B_D)%.o: $(SRCS_B)%.c $(HEAD_BONUS)
 #				@echo "$(YELLOW)Compiling $<, depends on $(HEAD_BONUS)...$(NC)"
 #				@$(CC) $(CFLAGS) -Iinclude -I$(LIBFT)/includes -c $< -o $@
 
-$(LIBFT_A):
-				@$(MAKE) -s --no-print-directory -C $(LIBFT)
+#$(LIBFT_A):
+#				@$(MAKE) -s --no-print-directory -C $(LIBFT)
 
 $(OBJS_D)	:
 				@mkdir -p $(OBJS_D)
@@ -103,12 +104,10 @@ $(OBJS_D)	:
 
 clean		:
 				@$(RM) -r $(OBJS) $(OBJS_D) $(OBJS_B) $(OBJS_B_D)
-				@$(MAKE) clean -s --no-print-directory -C $(LIBFT)
 				@echo "$(YELLOW)Clean complete$(NC)"
 
 fclean		:	clean
 				@$(RM) $(NAME) $(NAME_B)
-				@$(MAKE) fclean -s --no-print-directory -C $(LIBFT)
 				@echo "$(YELLOW)Full clean complete$(NC)"
 
 re			:	fclean all

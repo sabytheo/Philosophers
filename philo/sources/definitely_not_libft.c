@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   definitely_not_libft.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsaby <tsaby@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 15:33:40 by tsaby             #+#    #+#             */
-/*   Updated: 2024/11/15 10:03:35 by tsaby            ###   ########.fr       */
+/*   Created: 2025/04/11 13:23:58 by tsaby             #+#    #+#             */
+/*   Updated: 2025/04/11 14:06:42 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philo.h"
+
+int	ft_isdigit(int str)
+{
+	if (str >= '0' && str <= '9')
+		return (1);
+	return (0);
+}
 
 int	ft_atoi(const char *nbr)
 {
@@ -35,4 +42,26 @@ int	ft_atoi(const char *nbr)
 		res = res + nbr[i++] - '0';
 	}
 	return (res * sign);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	char	*p;
+
+	p = (char *)s;
+	while (n > 0)
+	{
+		p[n - 1] = c;
+		n--;
+	}
+	return (s);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		write(fd, &s[i++], 1);
 }

@@ -6,16 +6,13 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/10 10:47:09 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/11 14:06:31 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "ft_printf.h"
-# include "get_next_line.h"
-# include "libft.h"
 # include <limits.h>
 # include <pthread.h>
 # include <stdio.h>
@@ -80,5 +77,10 @@ int					takes_forks(t_philo *philos, t_fork *first_fork,
 
 void				print_action(t_philo *philos, char *action);
 void				destroy_mutex(t_philo *philos);
+
+int					ft_atoi(const char *nbr);
+void				*ft_memset(void *s, int c, size_t n);
+void				ft_putstr_fd(char *s, int fd);
+int					ft_isdigit(int str);
 
 #endif
