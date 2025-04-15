@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/14 17:48:29 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:41:54 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	state_philo(t_philo *philo, int i)
 	pthread_mutex_unlock(&philo->rules->check_countmeal);
 	pthread_mutex_unlock(&philo->rules->check_musteat);
 	pthread_mutex_lock(&philo->rules->check_lastmeal);
-	if (philo->rules->is_alive && get_current_time()
+	if (philo->rules->is_alive && (get_current_time())
 		- philo[i].last_meal > philo->rules->time_to_die)
 	{
 		print_action(&philo[i], "died");
@@ -77,6 +77,8 @@ int	monitor(t_philo *philo)
 	int	i;
 
 	i = 0;
+	while (get_current_time() < philo->rules->start_time)
+		usleep(100);
 	while (1)
 	{
 		if (check_deaths(philo) || check_ifallfull(philo))
@@ -102,6 +104,7 @@ int	thread(t_philo *philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]))
 		{
+			set_stop(philos, 1);
 			return (1);
 		}
 		i++;

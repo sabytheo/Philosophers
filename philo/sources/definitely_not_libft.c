@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:23:58 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/11 14:06:42 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:04:30 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,11 @@ void	ft_putstr_fd(char *s, int fd)
 	i = 0;
 	while (s[i])
 		write(fd, &s[i++], 1);
+}
+
+void	set_stop(t_philo *philo, int value)
+{
+	pthread_mutex_lock(&philo->rules->mutex_stop);
+	philo->rules->stop = value;
+	pthread_mutex_unlock(&philo->rules->mutex_stop);
 }

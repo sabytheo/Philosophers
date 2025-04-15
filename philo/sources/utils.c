@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:46:45 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/08 15:44:32 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:42:27 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ void	fake_sleep(long time, t_philo *philos)
 
 int	check_deaths(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->rules->mutex_stop);
+	if (philo->rules->stop == 1)
+	{
+		pthread_mutex_unlock(&philo->rules->mutex_stop);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->rules->mutex_stop);
 	pthread_mutex_lock(&philo->rules->check_death);
 	if (philo->rules->is_alive == 0)
 	{

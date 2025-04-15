@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/14 15:00:40 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:03:40 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ static void	init_mutex(t_rules *rules)
 	pthread_mutex_init(&rules->check_musteat, NULL);
 	pthread_mutex_init(&rules->check_isfull, NULL);
 	pthread_mutex_init(&rules->check_countmeal, NULL);
+	pthread_mutex_init(&rules->mutex_stop, NULL);
 }
 
 static int	set_value(t_rules *rules, int argc, char **argv)
 {
 	rules->is_alive = 1;
+	rules->stop = 0;
 	rules->count_philos = ft_atoi(argv[1]);
 	rules->time_to_die = ft_atoi(argv[2]);
 	rules->time_to_eat = ft_atoi(argv[3]);
@@ -73,7 +75,7 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 	{
 		philos[i].id = i + 1;
 		philos[i].count_meal = 0;
-		philos[i].last_meal = get_current_time();
+		philos[i].last_meal = rules->start_time;
 		philos[i].is_full = 0;
 		philos[i].rules = rules;
 		if (i % 2 == 0)
@@ -90,14 +92,6 @@ static void	init_philos(t_philo *philos, t_rules *rules)
 	}
 }
 
-int	clean_error(char *error_message, t_philo *philo)
-{
-	if (error_message)
-		ft_putstr_fd(error_message, 2);
-	if (philo)
-		destroy_mutex(philo);
-	return (1);
-}
 int	main(int argc, char **argv)
 {
 	t_philo	philos[MAX_PHILO];
@@ -118,11 +112,11 @@ int	main(int argc, char **argv)
 			i = 0;
 			while (i < philos->rules->count_philos)
 				if (pthread_join(philos[i++].thread, NULL))
-					return (clean_error("Failed to join threads\n", philos));
+					return (clean_error("Failed to join threads\n", philos, 1));
 		}
 		destroy_mutex(philos);
 		return (0);
 	}
 	else
-		return (clean_error("Error !\ncheck the usage\n", philos));
+		return (clean_error("Error !\ncheck the usage\n", philos, 0));
 }

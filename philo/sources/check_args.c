@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:49:48 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/10 11:19:12 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:03:12 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,13 @@ int	check_value(int argc, char **argv)
 		i++;
 	}
 	return (0);
+}
+
+int	clean_error(char *error_message, t_philo *philo, int state)
+{
+	if (error_message)
+		ft_putstr_fd(error_message, 2);
+	if (state)
+		destroy_mutex(philo);
+	return (1);
 }
