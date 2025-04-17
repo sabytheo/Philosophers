@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:50:42 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/15 17:41:54 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/17 13:39:48 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->rules->mutex_start);
+	pthread_mutex_unlock(&philo->rules->mutex_start);
 	while (1)
 	{
 		if (philo->rules->count_philos == 1)
@@ -100,15 +102,19 @@ int	thread(t_philo *philos)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&philos->rules->mutex_start);
 	while (i < philos->rules->count_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]))
 		{
+			philos->rules->count_philos = i + 1;
 			set_stop(philos, 1);
+			pthread_mutex_unlock(&philos->rules->mutex_start);
 			return (1);
 		}
 		i++;
 	}
+	pthread_mutex_unlock(&philos->rules->mutex_start);
 	if (monitor(philos))
 	{
 		return (1);

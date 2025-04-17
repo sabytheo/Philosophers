@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:49:48 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/15 17:03:12 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/17 13:20:56 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	destroy_mutex(t_philo *philos)
 	pthread_mutex_destroy(&philos->rules->check_isfull);
 	pthread_mutex_destroy(&philos->rules->check_lastmeal);
 	pthread_mutex_destroy(&philos->rules->check_musteat);
+	pthread_mutex_destroy(&philos->rules->mutex_start);
+	pthread_mutex_destroy(&philos->rules->mutex_stop);
 }
 
 static long	ft_atol(const char *str)

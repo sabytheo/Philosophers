@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:01:47 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/15 17:03:40 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/17 14:19:21 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	init_mutex(t_rules *rules)
 	pthread_mutex_init(&rules->check_isfull, NULL);
 	pthread_mutex_init(&rules->check_countmeal, NULL);
 	pthread_mutex_init(&rules->mutex_stop, NULL);
+	pthread_mutex_init(&rules->mutex_start, NULL);
 }
 
 static int	set_value(t_rules *rules, int argc, char **argv)
@@ -63,6 +64,8 @@ static int	init_rules(t_rules *rules, int argc, char **argv)
 	init_mutex(rules);
 	rules->all_full = 0;
 	rules->start_time = get_current_time();
+	if (rules->start_time == -1)
+		return (1);
 	return (0);
 }
 

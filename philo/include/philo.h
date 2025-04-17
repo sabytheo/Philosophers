@@ -6,7 +6,7 @@
 /*   By: tsaby <tsaby@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:03:40 by tsaby             #+#    #+#             */
-/*   Updated: 2025/04/15 17:03:20 by tsaby            ###   ########.fr       */
+/*   Updated: 2025/04/17 12:41:34 by tsaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_rules
 	pthread_mutex_t	check_isfull;
 	pthread_mutex_t	check_countmeal;
 	pthread_mutex_t	mutex_stop;
+	pthread_mutex_t	mutex_start;
 	long			start_time;
 }					t_rules;
 
